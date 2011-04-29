@@ -160,14 +160,8 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTEmpty(@SuppressWarnings("unused") TEmpty node)
-    {
-        this.index = 25;
-    }
-
-    @Override
     public void caseEOF(@SuppressWarnings("unused") EOF node)
     {
-        this.index = 26;
+        this.index = 25;
     }
 }

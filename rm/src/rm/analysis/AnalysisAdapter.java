@@ -374,11 +374,6 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTEmpty(TEmpty node)
-    {
-        defaultCase(node);
-    }
-
     public void caseTBlank(TBlank node)
     {
         defaultCase(node);

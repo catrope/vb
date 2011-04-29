@@ -74,7 +74,6 @@ public interface Analysis extends Switch
     void caseTIntdenotation(TIntdenotation node);
     void caseTRealdenotation(TRealdenotation node);
     void caseTIdent(TIdent node);
-    void caseTEmpty(TEmpty node);
     void caseTBlank(TBlank node);
     void caseEOF(EOF node);
 }

@@ -216,10 +216,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAEmptyParlst(AEmptyParlst node)
     {
         inAEmptyParlst(node);
-        if(node.getEmpty() != null)
-        {
-            node.getEmpty().apply(this);
-        }
         outAEmptyParlst(node);
     }
 
@@ -603,10 +599,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAEmptyArglst(AEmptyArglst node)
     {
         inAEmptyArglst(node);
-        if(node.getEmpty() != null)
-        {
-            node.getEmpty().apply(this);
-        }
         outAEmptyArglst(node);
     }
 

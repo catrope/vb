@@ -419,17 +419,6 @@ public class Lexer
                             this.line = accept_line;
                             return token;
                         }
-                    case 26:
-                        {
-                            @SuppressWarnings("hiding") Token token = new26(
-                                getText(accept_length),
-                                start_line + 1,
-                                start_pos + 1);
-                            pushBack(accept_length);
-                            this.pos = accept_pos;
-                            this.line = accept_line;
-                            return token;
-                        }
                     }
                 }
                 else
@@ -475,8 +464,7 @@ public class Lexer
     Token new22(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TIntdenotation(text, line, pos); }
     Token new23(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TRealdenotation(text, line, pos); }
     Token new24(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TIdent(text, line, pos); }
-    Token new25(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TEmpty(text, line, pos); }
-    Token new26(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TBlank(text, line, pos); }
+    Token new25(@SuppressWarnings("hiding") String text, @SuppressWarnings("hiding") int line, @SuppressWarnings("hiding") int pos) { return new TBlank(text, line, pos); }
 
     private int getChar() throws IOException
     {
@@ -585,7 +573,7 @@ public class Lexer
     private static int[][] accept;
 /*  {
         // INITIAL
-        {25, 26, 26, 26, 26, -1, 5, 12, 13, 2, 0, 15, 1, 17, 4, 22, 16, 8, 6, 11, 14, 24, 24, 24, 24, 24, 3, 7, 23, -1, 9, 10, 24, 24, 24, 19, 24, 24, 24, 18, 24, 21, 20, },
+        {-1, 25, 25, 25, 25, -1, 5, 12, 13, 2, 0, 15, 1, 17, 4, 22, 16, 8, 6, 11, 14, 24, 24, 24, 24, 24, 3, 7, 23, -1, 9, 10, 24, 24, 24, 19, 24, 24, 24, 18, 24, 21, 20, },
 
     };*/
 

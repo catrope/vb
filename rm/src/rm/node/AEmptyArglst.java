@@ -7,26 +7,16 @@ import rm.analysis.*;
 @SuppressWarnings("nls")
 public final class AEmptyArglst extends PArglst
 {
-    private TEmpty _empty_;
 
     public AEmptyArglst()
     {
         // Constructor
     }
 
-    public AEmptyArglst(
-        @SuppressWarnings("hiding") TEmpty _empty_)
-    {
-        // Constructor
-        setEmpty(_empty_);
-
-    }
-
     @Override
     public Object clone()
     {
-        return new AEmptyArglst(
-            cloneNode(this._empty_));
+        return new AEmptyArglst();
     }
 
     public void apply(Switch sw)
@@ -34,48 +24,16 @@ public final class AEmptyArglst extends PArglst
         ((Analysis) sw).caseAEmptyArglst(this);
     }
 
-    public TEmpty getEmpty()
-    {
-        return this._empty_;
-    }
-
-    public void setEmpty(TEmpty node)
-    {
-        if(this._empty_ != null)
-        {
-            this._empty_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._empty_ = node;
-    }
-
     @Override
     public String toString()
     {
-        return ""
-            + toString(this._empty_);
+        return "";
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._empty_ == child)
-        {
-            this._empty_ = null;
-            return;
-        }
-
         throw new RuntimeException("Not a child.");
     }
 
@@ -83,12 +41,6 @@ public final class AEmptyArglst extends PArglst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._empty_ == oldChild)
-        {
-            setEmpty((TEmpty) newChild);
-            return;
-        }
-
         throw new RuntimeException("Not a child.");
     }
 }
