@@ -1,0 +1,62 @@
+Package rm;
+
+Helpers
+	alpha = [['a'..'z']+['A'..'Z']];
+	num = ['0'..'9'];
+	alnum = alpha|num;
+
+Tokens
+	plussym = '+';
+	minussym = '-';
+	timessym = '*';
+	idivsym = '\';
+	rdivsym = '/';
+	imodsym = '%';
+
+	equalsym = '=';
+	noteqsym = '!=';
+	lesssym = '<';
+	lseqsym = '<=';
+	greqsym = '>=';
+	grtrsym = '>';
+
+	lparsym = '(';
+	rparsym = ')';
+	questionsym = '?';
+	commasym = ',';
+	semicolonsym = ';';
+	endsym = '.';
+	
+	letsym = 'LET';
+	ifsym = 'IF';
+	thensym = 'THEN';
+	elsesym = 'ELSE';
+
+	intdenotation = num+;
+	realdenotation = num* '.' num+;
+	ident = alpha alnum*;
+
+	empty = ;
+	blank = (' ' | 13 | 10 | 9);
+
+Ignored Tokens
+	blank;
+
+
+Productions
+	prog = {def} def prog | {comp} comp prog | {end} endsym;
+	def = {let} letsym ident parlst equalsym expr semicolonsym;
+	comp = {expr} expr questionsym;
+	parlst = {nonempty} lparsym pars rparsym | {empty} empty;
+	pars = {multi} pars commasym ident | {single} ident;
+	expr = {ifthen} ifsym relexpr thensym [then]:expr elsesym [else]:expr | {simple} smplexpr;
+	relexpr = {rel} [left]:expr relop [right]:expr;
+	smplexpr = {term} term | {add} smplexpr addop term;
+	term = {factor} factor | {mul} term mulop factor;
+	factor = {expr} lparsym expr rparsym | {int} intdenotation | {real} realdenotation | {call} ident arglst;
+	arglst = {nonempty} lparsym args rparsym | {empty} empty;
+	args = {multi} args commasym expr | {single} expr;
+	addop = {plus} plussym | {minus} minussym;
+	mulop = {times} timessym | {idiv} idivsym | {rdiv} rdivsym | {imod} imodsym;
+	relop = {equal} equalsym | {noteq} noteqsym | {less} lesssym | {lseq} lseqsym | {greq} greqsym | {grtr} grtrsym;
+
