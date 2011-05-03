@@ -6,17 +6,28 @@ import java.util.LinkedList;
 public class FuncDef {
 	LinkedList<String> varlist;
 	Value val;
+	Context evalContext;
 	
-	public FuncDef(LinkedList<String> varlist, Value val) {
+	public FuncDef(LinkedList<String> varlist, Value val, Context evalContext) {
 		this.varlist = varlist;
 		this.val = val;
+		this.evalContext = evalContext;
+	}
+	
+	public FuncDef(LinkedList<String> varlist, Value val) {
+		this(varlist, val, null);
+	}
+	
+	public Context getContext(Context defaultContext) {
+		return evalContext != null ? evalContext : defaultContext;
 	}
 	
 	public ConcreteValue evaluate(Context context, LinkedList<Value> vars) {
-		if (vars != null) {
+		Context myContext = getContext(context);
+		if (vars.size() > 0) {
 			Context newContext = null;
 			try {
-				newContext = (Context) context.clone();
+				newContext = (Context) myContext.clone();
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace(); System.exit(-1);
 			}
@@ -28,12 +39,12 @@ public class FuncDef {
 			Iterator<String> varNames = varlist.iterator();
 			Iterator<Value> varValues = vars.iterator();
 			for(int i=0; i<varlist.size(); i++) {
-				newContext.putFuncDef(varNames.next(), new FuncDef(new LinkedList<String>(), varValues.next()));
+				newContext.putFuncDef(varNames.next(), new FuncDef(new LinkedList<String>(), varValues.next(), myContext));
 			}
 			
 			return val.evaluate(newContext);
 		} else {
-			return val.evaluate(context);
+			return val.evaluate(myContext);
 		}
 	}
 }
