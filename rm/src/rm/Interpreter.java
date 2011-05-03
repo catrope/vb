@@ -98,4 +98,8 @@ public class Interpreter extends DepthFirstAdapter {
 		}
 		setOut(node, new FuncCallValue(node.getIdent().getText(), vals));
 	}
+	
+	public void outASimpleExpr(ASimpleExpr node) {
+		setOut(node, getOut(node.getSmplexpr()));
+	}
 }
