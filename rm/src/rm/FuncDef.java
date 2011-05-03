@@ -28,7 +28,7 @@ public class FuncDef {
 			Iterator<String> varNames = varlist.iterator();
 			Iterator<Value> varValues = vars.iterator();
 			for(int i=0; i<varlist.size(); i++) {
-				newContext.putFuncDef(varNames.next(), new FuncDef(null, varValues.next()));
+				newContext.putFuncDef(varNames.next(), new FuncDef(new LinkedList<String>(), varValues.next()));
 			}
 			
 			return val.evaluate(newContext);
