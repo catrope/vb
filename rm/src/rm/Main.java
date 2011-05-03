@@ -22,8 +22,9 @@ public class Main {
 
         // parse the input
          Start tree = p.parse();
-         ASTDisplay ad = new ASTDisplay ();
-         tree.apply (ad);
+         //ASTDisplay ad = new ASTDisplay ();
+         //tree.apply (ad);
+         tree.apply(new Interpreter());
             
         } catch (Exception e) {
             System.out.println("Exception occurred: "+e.getMessage());
