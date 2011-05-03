@@ -1,8 +1,8 @@
 package rm;
 
-public class AddOpValue extends BinOpValue {
+public class PlusOpValue extends BinOpValue {
 
-	public AddOpValue(Value a, Value b) {
+	public PlusOpValue(Value a, Value b) {
 		super(a, b);
 	}
 
