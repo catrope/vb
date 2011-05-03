@@ -6,6 +6,8 @@ import rm.analysis.DepthFirstAdapter;
 import rm.node.*;
 
 public class Interpreter extends DepthFirstAdapter {
+	Context globalContext = new Context();
+	
 	public void outAIntFactor(AIntFactor node) {
 		setOut(node, new IntValue(Long.valueOf(node.getIntdenotation().getText())));
 	}
@@ -101,5 +103,27 @@ public class Interpreter extends DepthFirstAdapter {
 	
 	public void outASimpleExpr(ASimpleExpr node) {
 		setOut(node, getOut(node.getSmplexpr()));
+	}
+	
+	public void outADefProg(ADefProg node) {
+		setOut(node, (Value)getOut(node.getDef()));
+	}
+	
+	public void outALetDef(ALetDef node) {
+		LinkedList<String> names = new LinkedList<String>();
+		PParlst parlst = node.getParlst();
+		if (parlst instanceof ANonemptyParlst) {
+			PPars pars = ((ANonemptyParlst)parlst).getPars();
+			while (pars instanceof AMultiPars) {
+				names.addFirst(((AMultiPars)pars).getIdent().getText());
+				pars = ((AMultiPars)pars).getPars();
+			}
+			names.addFirst(((ASinglePars)pars).getIdent().getText());
+		}
+		globalContext.putFuncDef(node.getIdent().getText(), new FuncDef(names, (Value)getOut(node.getExpr())));
+	}
+	
+	public void outAExprComp(AExprComp node) {
+		System.out.println(((Value)getOut(node.getExpr())).evaluate(globalContext));
 	}
 }
