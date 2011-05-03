@@ -7,8 +7,8 @@ public class RDivOpValue extends BinOpValue {
 	}
 
 	@Override
-	public ConcreteValue evaluate() {
-		return new DoubleValue(a.evaluate().getDoubleValue() / b.evaluate().getDoubleValue());
+	public ConcreteValue evaluate(Context context) {
+		return new DoubleValue(a.evaluate(context).getDoubleValue() / b.evaluate(context).getDoubleValue());
 	}
 
 }

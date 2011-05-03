@@ -7,7 +7,7 @@ public abstract class ConcreteValue extends Value {
 	public abstract double getDoubleValue();
 	
 	@Override
-	public ConcreteValue evaluate() {
+	public ConcreteValue evaluate(Context context) {
 		// No-op
 		return this;
 	}

@@ -7,9 +7,9 @@ public class TimesOpValue extends BinOpValue {
 	}
 
 	@Override
-	public ConcreteValue evaluate() {
-		ConcreteValue aEval = a.evaluate();
-		ConcreteValue bEval = b.evaluate();
+	public ConcreteValue evaluate(Context context) {
+		ConcreteValue aEval = a.evaluate(context);
+		ConcreteValue bEval = b.evaluate(context);
 		if (aEval.hasIntValue() && bEval.hasIntValue()) {
 			return new IntValue(aEval.getIntValue() * bEval.getIntValue());
 		} else {

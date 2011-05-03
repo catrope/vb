@@ -7,8 +7,8 @@ public class IDivOpValue extends BinOpValue {
 	}
 
 	@Override
-	public ConcreteValue evaluate() {
-		return new IntValue(a.evaluate().getIntValue() / b.evaluate().getIntValue());
+	public ConcreteValue evaluate(Context context) {
+		return new IntValue(a.evaluate(context).getIntValue() / b.evaluate(context).getIntValue());
 	}
 
 }
