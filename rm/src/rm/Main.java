@@ -27,6 +27,7 @@ public class Main {
          tree.apply(new Interpreter());
             
         } catch (Exception e) {
+        	e.printStackTrace();
             System.out.println("Exception occurred: "+e.getMessage());
         }
     }
