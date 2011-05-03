@@ -1,5 +1,7 @@
 package rm;
 
+import java.util.LinkedList;
+
 import rm.analysis.DepthFirstAdapter;
 import rm.node.*;
 
@@ -81,5 +83,19 @@ public class Interpreter extends DepthFirstAdapter {
 			System.err.println("Invalid relop: " + node.getRelop().toString());	
 		}
 		setOut(node, v);
+	}
+
+	public void outACallFactor(ACallFactor node) {
+		LinkedList<Value> vals = new LinkedList<Value>();
+		PArglst arglst = node.getArglst();
+		if (arglst instanceof ANonemptyArglst) {
+			PArgs args = ((ANonemptyArglst)arglst).getArgs();
+			while (args instanceof AMultiArgs) {
+				vals.addFirst((Value)getOut(((AMultiArgs)args).getExpr()));
+				args = ((AMultiArgs)args).getArgs();
+			}
+			vals.addFirst((Value)getOut(((ASingleArgs)args).getExpr()));
+		}
+		setOut(node, new FuncCallValue(node.getIdent().getText(), vals));
 	}
 }
