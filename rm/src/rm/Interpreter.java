@@ -126,4 +126,11 @@ public class Interpreter extends DepthFirstAdapter {
 	public void outAExprComp(AExprComp node) {
 		System.out.println(((Value)getOut(node.getExpr())).evaluate(globalContext));
 	}
+	
+	public void outAIfthenExpr(AIfthenExpr node) {
+		Value cond = (Value)getOut(node.getRelexpr());
+		Value thenVal = (Value)getOut(node.getThen());
+		Value elseVal = (Value)getOut(node.getElse());
+		setOut(node, new IfThenValue(cond, thenVal, elseVal));
+	}
 }
