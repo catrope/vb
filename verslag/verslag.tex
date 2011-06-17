@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily, tabsize=4, columns=flexible, breaklines=true, stepnumber=1, numberstyle=\tiny, numbersep=6pt, xleftmargin=1.8em}
+\usepackage[dutch]{babel}
+\usepackage{parskip}
+
+
+\begin{document}
+
+\author{Roan Kattouw \and Jan Paul Posma}
+\date{\today}
+\title{Operating Systems practicum 2}
+
+\maketitle
+
+\section{Opzet}
+Voor onze implementatie hebben we SableCC gebruikt.
+
+\section{Lexer}
+De lexer is erg eenvoudig. We hebben een aantal \emph{helpers} gebruikt voor letters, cijfers, en alfanumerieke tekens. Verder defini\"eren we de verschillende symbolen die gebruikt mogen worden. Whitespace negeren we.
+
+\begin{verbatim}
+Package rm;
+
+Helpers
+	alpha = [['a'..'z']+['A'..'Z']];
+	num = ['0'..'9'];
+	alnum = alpha|num;
+
+Tokens
+	plussym = '+';
+	minussym = '-';
+	timessym = '*';
+	idivsym = '\';
+	rdivsym = '/';
+	imodsym = '%';
+
+	equalsym = '=';
+	noteqsym = '!=';
+	lesssym = '<';
+	lseqsym = '<=';
+	greqsym = '>=';
+	grtrsym = '>';
+
+	lparsym = '(';
+	rparsym = ')';
+	questionsym = '?';
+	commasym = ',';
+	semicolonsym = ';';
+	endsym = '.';
+	
+	letsym = 'LET';
+	ifsym = 'IF';
+	thensym = 'THEN';
+	elsesym = 'ELSE';
+
+	intdenotation = num+;
+	realdenotation = num* '.' num+;
+	ident = alpha alnum*;
+
+	blank = (' ' | 13 | 10 | 9);
+
+Ignored Tokens
+	blank;
+\end{verbatim}
+
+\section{Parser productions}
+
+De parser productions komen vrijwel exact overeen met die gegeven in de opdracht. Wat opvalt zijn de namen die we hebben toekend aan de verschillende parsing mogelijkheden, zodat we ze later kunnen terugvinden bij het programmeren.
+
+\begin{verbatim}
+Productions
+	prog = {def} def prog | {comp} comp prog | {end} endsym;
+	def = {let} letsym ident parlst equalsym expr semicolonsym;
+	comp = {expr} expr questionsym;
+	parlst = {nonempty} lparsym pars rparsym | {empty} ;
+	pars = {multi} pars commasym ident | {single} ident;
+	expr = {ifthen} ifsym relexpr thensym [then]:expr elsesym [else]:expr | {simple} smplexpr;
+	relexpr = {rel} [left]:expr relop [right]:expr;
+	smplexpr = {term} term | {add} smplexpr addop term;
+	term = {factor} factor | {mul} term mulop factor;
+	factor = {expr} lparsym expr rparsym | {int} intdenotation | {real} realdenotation | {call} ident arglst;
+	arglst = {nonempty} lparsym args rparsym | {empty} ;
+	args = {multi} args commasym expr | {single} expr;
+	addop = {plus} plussym | {minus} minussym;
+	mulop = {times} timessym | {idiv} idivsym | {rdiv} rdivsym | {imod} imodsym;
+	relop = {equal} equalsym | {noteq} noteqsym | {less} lesssym | {lseq} lseqsym | {greq} greqsym | {grtr} grtrsym;
+\end{verbatim}
+
+\section{Tree walking}
+
+De lexer en parser worden aan de hand van bovengenoemde code automatisch gegenereerd. De parser levert een boomstructuur op, die door middel van standaardklasses in SableCC te bewandelen zijn. Er zijn vervolgens functies beschikbaar voor het binnenkomen en verlaten van knopen. Ook is willekeurige
+data te associ\"eren met bepaalde knopen.
+
+Wij hebben ervoor gekozen om bij het depth-first bewandelen van de boom telkens bij het verlaten van een knoop instructies toe te voegen. Op deze manier komen we dus het eerste bij atomaire expressies, en dan telkens bij expressies die anderen omvatten. Tijdens het bewandelen associ\"eren we eigen datatypes met elke knoop via de SableCC functie \verb+setOut+. Vervolgens gebruiken we deze datatypes bij andere knopen weer als argumenten van nieuwe datatypes.
+
+Zo bouwen we in feite onze eigen boomstructuur die beschouwd kan worden als een abstract syntax tree, aangezien deze wel direct de code representeert maar handiger (abstracter) in elkaar zit. Zo zijn parameters van een functie directe kinderen van een parameterlijst, in plaats van een diepe nesting.
+
+In plaats van:
+\begin{verbatim}
+*NonEmpyParlst
+** MultiPars: "a"
+*** MultiPars: "b"
+**** MultiPars: "c"
+***** SinglePars: "d"
+\end{verbatim}
+Hebben we simpelweg:
+\begin{verbatim}
+*LinkedList<String> names:
+** "a"
+** "b"
+** "c"
+** "d"
+\end{verbatim}
+
+Bovendien hebben onze eigen klasses alle logica om de expressies te evalueren. Alle expressies zijn subklasse van \verb+Value+, wat betekent dat ze een \verb+evaluate+ functie moeten implementeren. Dit is een interessante functie. \verb+evaluate+ retouneert altijd een \verb+ConcreteValue+, wat in feite een wrapper voor integers en floating point getallen is. Als argument vraagt \verb+evaluate+ enkel een \verb+context+. De context is een \verb+HashMap+ die functienamen koppelt aan functiedefinities. Alle variablen zijn namelijk functies. Zodra een functieaanroep wordt ge\"evalueerd, worden de argumenten aangepast aan de parameternamen, zodat de context binnen die functie is aangepast. Buiten de functie blijft de context ongewijzigd. Zo kunnen parameternamen van functies dezelfde zijn als namen van functies die daarbuiten zijn gedeclareerd zonder dat deze worden overschreven na de aanroep.
+
+Lazy evaluation is ook triviaal op deze manier. Aangezien alle argumenten van een functieaanroep gewoon ook functies zijn, worden deze zoals eerder genoemd gekoppeld aan de nieuwe namen. Verder worden ze niet direct ge\"evalueerd, maar pas op het moment dat het nodig is. In plaats van alleen een \verb+context+ te vragen bij het evalueren, zijn is hier dus wel nog een lijst met argumenten nodig. Om te zorgen dat functies niet meerdere malen worden uitgevoerd wanneer dit niet nodig is, kunnen we gebruik maken van memoization. Echter, het is lastig op voorhand te zeggen hoe we dingen kunnen onthouden. Daarom hebben we besloten dit alleen toe te passen op functies zonder argumenten (dus gewone variabelen). Dit voorbeeld is dus even snel als zonder lazy evaluation:
+
+\begin{verbatim}
+LET fib(n, q) = IF n < 2 THEN n ELSE fib(n-1, q) + fib(n-2, q);
+LET bla(x) = x+x+x+x+x+x-x-x-x-x-x-x;
+bla(fib(25, 1/0))?
+.
+\end{verbatim}
+
+Aangezien functieparameters altijd argumentloze functies worden, zal deze implementatie altijd even snel blijven als zonder lazy evaluation. Merk wel op dat de fib functie in dit geval niet optimaal is, er worden dingen meerdere malen berekend. Zonder lazy evaluation is het triviaal hierop memoization toe te passen en dit flink te versnellen, dus dat is hier de trade-off.
+
+
+
+\end{document}

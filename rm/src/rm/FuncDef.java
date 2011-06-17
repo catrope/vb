@@ -7,11 +7,13 @@ public class FuncDef {
 	LinkedList<String> varlist;
 	Value val;
 	Context evalContext;
+	ConcreteValue mem;
 	
 	public FuncDef(LinkedList<String> varlist, Value val, Context evalContext) {
 		this.varlist = varlist;
 		this.val = val;
 		this.evalContext = evalContext;
+		this.mem = null;
 	}
 	
 	public FuncDef(LinkedList<String> varlist, Value val) {
@@ -22,7 +24,7 @@ public class FuncDef {
 		return evalContext != null ? evalContext : defaultContext;
 	}
 	
-	public ConcreteValue evaluate(Context context, LinkedList<Value> vars) {
+	public ConcreteValue evaluate(Context context, LinkedList<Value> vars) {		
 		Context myContext = getContext(context);
 		if (vars.size() > 0) {
 			Context newContext = null;
@@ -44,7 +46,8 @@ public class FuncDef {
 			
 			return val.evaluate(newContext);
 		} else {
-			return val.evaluate(myContext);
+			if (mem == null) mem = val.evaluate(myContext);
+			return mem;
 		}
 	}
 }
