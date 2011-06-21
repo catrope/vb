@@ -16,7 +16,7 @@ LET example(n) = IF (IF n < 5 THEN true ELSE false) THEN n ELSE -n;
 example(0)?
 example(1.1)?
 example(5.5)?
-example(3.0e-2)? -- exponent
+example(3.0e-2)? -- scientific notation
 example(false)? -- booleans
 example(true)?
 example(' ')? -- characters
@@ -29,3 +29,22 @@ pow(2,1/0)? -- lazy evaluation (a is evaluated only once!)
 5+5.5 > 10? -- comparison not only in IF statements
 false+1? -- false and true are really just constants for 0 and 1
 .
+
+This gives the output:
+
+5040
+1.4142135623746899
+0
+1.1
+-5.5
+0.03
+false
+true
+-32
+-0.39998531498835127
+256.0
+6
+6
+10.5
+true
+1
