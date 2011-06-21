@@ -10,4 +10,10 @@ public class DoubleValue extends ConcreteValue {
 	public boolean hasIntValue() { return false; }
 	public long getIntValue() { return Math.round(v); }
 	public double getDoubleValue() { return v; }
+
+	@Override
+	public String toString() {
+		return Double.toString(getDoubleValue());
+	}
+	
 }

@@ -5,16 +5,16 @@ package rm.node;
 import rm.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASimpleExpr extends PExpr
+public final class ASimpleRelexpr extends PRelexpr
 {
     private PSmplexpr _smplexpr_;
 
-    public ASimpleExpr()
+    public ASimpleRelexpr()
     {
         // Constructor
     }
 
-    public ASimpleExpr(
+    public ASimpleRelexpr(
         @SuppressWarnings("hiding") PSmplexpr _smplexpr_)
     {
         // Constructor
@@ -25,13 +25,13 @@ public final class ASimpleExpr extends PExpr
     @Override
     public Object clone()
     {
-        return new ASimpleExpr(
+        return new ASimpleRelexpr(
             cloneNode(this._smplexpr_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASimpleExpr(this);
+        ((Analysis) sw).caseASimpleRelexpr(this);
     }
 
     public PSmplexpr getSmplexpr()

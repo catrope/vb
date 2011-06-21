@@ -7,4 +7,5 @@ public abstract class BinOpValue extends Value {
 		this.a = a;
 		this.b = b;
 	}
+	
 }

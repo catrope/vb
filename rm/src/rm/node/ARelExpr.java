@@ -5,45 +5,45 @@ package rm.node;
 import rm.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFactorTerm extends PTerm
+public final class ARelExpr extends PExpr
 {
-    private PAddopfactor _addopfactor_;
+    private PRelexpr _relexpr_;
 
-    public AFactorTerm()
+    public ARelExpr()
     {
         // Constructor
     }
 
-    public AFactorTerm(
-        @SuppressWarnings("hiding") PAddopfactor _addopfactor_)
+    public ARelExpr(
+        @SuppressWarnings("hiding") PRelexpr _relexpr_)
     {
         // Constructor
-        setAddopfactor(_addopfactor_);
+        setRelexpr(_relexpr_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFactorTerm(
-            cloneNode(this._addopfactor_));
+        return new ARelExpr(
+            cloneNode(this._relexpr_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFactorTerm(this);
+        ((Analysis) sw).caseARelExpr(this);
     }
 
-    public PAddopfactor getAddopfactor()
+    public PRelexpr getRelexpr()
     {
-        return this._addopfactor_;
+        return this._relexpr_;
     }
 
-    public void setAddopfactor(PAddopfactor node)
+    public void setRelexpr(PRelexpr node)
     {
-        if(this._addopfactor_ != null)
+        if(this._relexpr_ != null)
         {
-            this._addopfactor_.parent(null);
+            this._relexpr_.parent(null);
         }
 
         if(node != null)
@@ -56,23 +56,23 @@ public final class AFactorTerm extends PTerm
             node.parent(this);
         }
 
-        this._addopfactor_ = node;
+        this._relexpr_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._addopfactor_);
+            + toString(this._relexpr_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._addopfactor_ == child)
+        if(this._relexpr_ == child)
         {
-            this._addopfactor_ = null;
+            this._relexpr_ = null;
             return;
         }
 
@@ -83,9 +83,9 @@ public final class AFactorTerm extends PTerm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._addopfactor_ == oldChild)
+        if(this._relexpr_ == oldChild)
         {
-            setAddopfactor((PAddopfactor) newChild);
+            setRelexpr((PRelexpr) newChild);
             return;
         }
 

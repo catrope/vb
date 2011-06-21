@@ -1,2 +1,31 @@
 ln -s /net/users/csg/csg1028/bin/sablecc sablecc
 
+Example program:
+
+-- example program given in the course just works:
+LET d         = 7;
+LET fac(n)    = IF n=0 THEN 1 ELSE n*fac(n-1);
+fac(d)?
+LET abs(r)    = IF r<0.0 THEN 0.0-r ELSE r;
+LET eps       = 1.0/1000000.0;
+LET sqrt(r,x) = IF abs(x*x-r)<eps THEN x ELSE sqrt(r,(x+r/x)/2.0);
+sqrt(2.0,2.0)?
+
+LET example(n) = IF (IF n < 5 THEN true ELSE false) THEN n ELSE -n;
+-- nested expression, monadic minus
+example(0)?
+example(1.1)?
+example(5.5)?
+example(3.0e-2)? -- exponent
+example(false)? -- booleans
+example(true)?
+example(' ')? -- characters
+example(cos(42))? -- built-in functions
+pow(2,8)?
+LET pow(a,b) = a+a+a; -- overriding built-in functions
+pow(2,8)?
+pow(2,1/0)? -- lazy evaluation (a is evaluated only once!)
+5+5.5? -- double/int coercion
+5+5.5 > 10? -- comparison not only in IF statements
+false+1? -- false and true are really just constants for 0 and 1
+.

@@ -310,25 +310,25 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAIfthenExpr(node);
     }
 
-    public void inASimpleExpr(ASimpleExpr node)
+    public void inARelExpr(ARelExpr node)
     {
         defaultIn(node);
     }
 
-    public void outASimpleExpr(ASimpleExpr node)
+    public void outARelExpr(ARelExpr node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseASimpleExpr(ASimpleExpr node)
+    public void caseARelExpr(ARelExpr node)
     {
-        inASimpleExpr(node);
-        if(node.getSmplexpr() != null)
+        inARelExpr(node);
+        if(node.getRelexpr() != null)
         {
-            node.getSmplexpr().apply(this);
+            node.getRelexpr().apply(this);
         }
-        outASimpleExpr(node);
+        outARelExpr(node);
     }
 
     public void inARelRelexpr(ARelRelexpr node)
@@ -358,6 +358,27 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getLeft().apply(this);
         }
         outARelRelexpr(node);
+    }
+
+    public void inASimpleRelexpr(ASimpleRelexpr node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASimpleRelexpr(ASimpleRelexpr node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASimpleRelexpr(ASimpleRelexpr node)
+    {
+        inASimpleRelexpr(node);
+        if(node.getSmplexpr() != null)
+        {
+            node.getSmplexpr().apply(this);
+        }
+        outASimpleRelexpr(node);
     }
 
     public void inATermSmplexpr(ATermSmplexpr node)
@@ -424,9 +445,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAFactorTerm(AFactorTerm node)
     {
         inAFactorTerm(node);
-        if(node.getFactor() != null)
+        if(node.getAddopfactor() != null)
         {
-            node.getFactor().apply(this);
+            node.getAddopfactor().apply(this);
         }
         outAFactorTerm(node);
     }
@@ -445,9 +466,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAMulTerm(AMulTerm node)
     {
         inAMulTerm(node);
-        if(node.getFactor() != null)
+        if(node.getAddopfactor() != null)
         {
-            node.getFactor().apply(this);
+            node.getAddopfactor().apply(this);
         }
         if(node.getMulop() != null)
         {
@@ -458,6 +479,52 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getTerm().apply(this);
         }
         outAMulTerm(node);
+    }
+
+    public void inAAddopAddopfactor(AAddopAddopfactor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAddopAddopfactor(AAddopAddopfactor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAddopAddopfactor(AAddopAddopfactor node)
+    {
+        inAAddopAddopfactor(node);
+        if(node.getFactor() != null)
+        {
+            node.getFactor().apply(this);
+        }
+        if(node.getAddop() != null)
+        {
+            node.getAddop().apply(this);
+        }
+        outAAddopAddopfactor(node);
+    }
+
+    public void inAFactorAddopfactor(AFactorAddopfactor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFactorAddopfactor(AFactorAddopfactor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFactorAddopfactor(AFactorAddopfactor node)
+    {
+        inAFactorAddopfactor(node);
+        if(node.getFactor() != null)
+        {
+            node.getFactor().apply(this);
+        }
+        outAFactorAddopfactor(node);
     }
 
     public void inAExprFactor(AExprFactor node)
@@ -529,6 +596,48 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getRealdenotation().apply(this);
         }
         outARealFactor(node);
+    }
+
+    public void inABoolFactor(ABoolFactor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outABoolFactor(ABoolFactor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseABoolFactor(ABoolFactor node)
+    {
+        inABoolFactor(node);
+        if(node.getBooldenotation() != null)
+        {
+            node.getBooldenotation().apply(this);
+        }
+        outABoolFactor(node);
+    }
+
+    public void inACharFactor(ACharFactor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outACharFactor(ACharFactor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseACharFactor(ACharFactor node)
+    {
+        inACharFactor(node);
+        if(node.getChardenotation() != null)
+        {
+            node.getChardenotation().apply(this);
+        }
+        outACharFactor(node);
     }
 
     public void inACallFactor(ACallFactor node)

@@ -5,45 +5,45 @@ package rm.node;
 import rm.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFactorTerm extends PTerm
+public final class ACharFactor extends PFactor
 {
-    private PAddopfactor _addopfactor_;
+    private TChardenotation _chardenotation_;
 
-    public AFactorTerm()
+    public ACharFactor()
     {
         // Constructor
     }
 
-    public AFactorTerm(
-        @SuppressWarnings("hiding") PAddopfactor _addopfactor_)
+    public ACharFactor(
+        @SuppressWarnings("hiding") TChardenotation _chardenotation_)
     {
         // Constructor
-        setAddopfactor(_addopfactor_);
+        setChardenotation(_chardenotation_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFactorTerm(
-            cloneNode(this._addopfactor_));
+        return new ACharFactor(
+            cloneNode(this._chardenotation_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFactorTerm(this);
+        ((Analysis) sw).caseACharFactor(this);
     }
 
-    public PAddopfactor getAddopfactor()
+    public TChardenotation getChardenotation()
     {
-        return this._addopfactor_;
+        return this._chardenotation_;
     }
 
-    public void setAddopfactor(PAddopfactor node)
+    public void setChardenotation(TChardenotation node)
     {
-        if(this._addopfactor_ != null)
+        if(this._chardenotation_ != null)
         {
-            this._addopfactor_.parent(null);
+            this._chardenotation_.parent(null);
         }
 
         if(node != null)
@@ -56,23 +56,23 @@ public final class AFactorTerm extends PTerm
             node.parent(this);
         }
 
-        this._addopfactor_ = node;
+        this._chardenotation_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._addopfactor_);
+            + toString(this._chardenotation_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._addopfactor_ == child)
+        if(this._chardenotation_ == child)
         {
-            this._addopfactor_ = null;
+            this._chardenotation_ = null;
             return;
         }
 
@@ -83,9 +83,9 @@ public final class AFactorTerm extends PTerm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._addopfactor_ == oldChild)
+        if(this._chardenotation_ == oldChild)
         {
-            setAddopfactor((PAddopfactor) newChild);
+            setChardenotation((TChardenotation) newChild);
             return;
         }
 

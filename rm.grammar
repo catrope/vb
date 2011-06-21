@@ -4,6 +4,7 @@ Helpers
 	alpha = [['a'..'z']+['A'..'Z']];
 	num = ['0'..'9'];
 	alnum = alpha|num;
+	exponent = 'e'|'E';
 
 Tokens
 	plussym = '+';
@@ -33,13 +34,16 @@ Tokens
 	elsesym = 'ELSE';
 
 	intdenotation = num+;
-	realdenotation = num* '.' num+;
+	realdenotation = num* '.' num+ (exponent '-'? num+)?;
+	booldenotation = 'false' | 'true';
+	chardenotation = 39 [[32..0xffff]-39] 39;
 	ident = alpha alnum*;
-
+	
+	comment = ('--' [[32..0xffff]+9]*);
 	blank = (' ' | 13 | 10 | 9);
 
 Ignored Tokens
-	blank;
+	comment, blank;
 
 
 Productions
@@ -48,11 +52,13 @@ Productions
 	comp = {expr} expr questionsym;
 	parlst = {nonempty} lparsym pars rparsym | {empty} ;
 	pars = {multi} pars commasym ident | {single} ident;
-	expr = {ifthen} ifsym relexpr thensym [then]:expr elsesym [else]:expr | {simple} smplexpr;
-	relexpr = {rel} [left]:expr relop [right]:expr;
+	expr = {ifthen} ifsym relexpr thensym [then]:expr elsesym [else]:expr | {rel} relexpr;
+	relexpr = {rel} [left]:smplexpr relop [right]:smplexpr | {simple} smplexpr;
 	smplexpr = {term} term | {add} smplexpr addop term;
-	term = {factor} factor | {mul} term mulop factor;
-	factor = {expr} lparsym expr rparsym | {int} intdenotation | {real} realdenotation | {call} ident arglst;
+	term = {factor} addopfactor | {mul} term mulop addopfactor;
+	addopfactor = {addop} addop factor | {factor} factor;
+	factor = {expr} lparsym expr rparsym | {int} intdenotation | {real} realdenotation | {bool} booldenotation
+		| {char} chardenotation | {call} ident arglst;
 	arglst = {nonempty} lparsym args rparsym | {empty} ;
 	args = {multi} args commasym expr | {single} expr;
 	addop = {plus} plussym | {minus} minussym;

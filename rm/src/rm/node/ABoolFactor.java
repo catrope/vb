@@ -5,45 +5,45 @@ package rm.node;
 import rm.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFactorTerm extends PTerm
+public final class ABoolFactor extends PFactor
 {
-    private PAddopfactor _addopfactor_;
+    private TBooldenotation _booldenotation_;
 
-    public AFactorTerm()
+    public ABoolFactor()
     {
         // Constructor
     }
 
-    public AFactorTerm(
-        @SuppressWarnings("hiding") PAddopfactor _addopfactor_)
+    public ABoolFactor(
+        @SuppressWarnings("hiding") TBooldenotation _booldenotation_)
     {
         // Constructor
-        setAddopfactor(_addopfactor_);
+        setBooldenotation(_booldenotation_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFactorTerm(
-            cloneNode(this._addopfactor_));
+        return new ABoolFactor(
+            cloneNode(this._booldenotation_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFactorTerm(this);
+        ((Analysis) sw).caseABoolFactor(this);
     }
 
-    public PAddopfactor getAddopfactor()
+    public TBooldenotation getBooldenotation()
     {
-        return this._addopfactor_;
+        return this._booldenotation_;
     }
 
-    public void setAddopfactor(PAddopfactor node)
+    public void setBooldenotation(TBooldenotation node)
     {
-        if(this._addopfactor_ != null)
+        if(this._booldenotation_ != null)
         {
-            this._addopfactor_.parent(null);
+            this._booldenotation_.parent(null);
         }
 
         if(node != null)
@@ -56,23 +56,23 @@ public final class AFactorTerm extends PTerm
             node.parent(this);
         }
 
-        this._addopfactor_ = node;
+        this._booldenotation_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._addopfactor_);
+            + toString(this._booldenotation_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._addopfactor_ == child)
+        if(this._booldenotation_ == child)
         {
-            this._addopfactor_ = null;
+            this._booldenotation_ = null;
             return;
         }
 
@@ -83,9 +83,9 @@ public final class AFactorTerm extends PTerm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._addopfactor_ == oldChild)
+        if(this._booldenotation_ == oldChild)
         {
-            setAddopfactor((PAddopfactor) newChild);
+            setBooldenotation((TBooldenotation) newChild);
             return;
         }
 

@@ -10,4 +10,9 @@ public class IntValue extends ConcreteValue {
 	public boolean hasIntValue() { return true; }
 	public long getIntValue() { return v; }
 	public double getDoubleValue() { return v; }
+	
+	@Override
+	public String toString() {
+		return Long.toString(v);
+	}
 }

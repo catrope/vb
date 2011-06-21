@@ -12,11 +12,6 @@ public abstract class ConcreteValue extends Value {
 		return this;
 	}
 	
-	public String toString() {
-		if (hasIntValue())
-			return Long.toString(getIntValue());
-		else
-			return Double.toString(getDoubleValue());
-	}
-
+	public abstract String toString();
+	
 }

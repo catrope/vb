@@ -7,6 +7,17 @@ import rm.node.*;
 
 public class Interpreter extends DepthFirstAdapter {
 	Context globalContext = new Context();
+	FuncDef globalSin = new SinFuncDef(), globalCos = new CosFuncDef(), globalTan = new TanFuncDef();
+	FuncDef globalExp = new ExpFuncDef(), globalLog = new LogFuncDef(), globalPow = new PowFuncDef();
+	
+	public Interpreter() {
+		globalContext.putFuncDef("sin", globalSin);
+		globalContext.putFuncDef("cos", globalCos);
+		globalContext.putFuncDef("tan", globalTan);
+		globalContext.putFuncDef("exp", globalExp);
+		globalContext.putFuncDef("log", globalLog);
+		globalContext.putFuncDef("pow", globalPow);
+	}
 	
 	public void outALetDef(ALetDef node) {
 		LinkedList<String> names = new LinkedList<String>();
@@ -19,7 +30,7 @@ public class Interpreter extends DepthFirstAdapter {
 			}
 			names.addFirst(((ASinglePars)pars).getIdent().getText());
 		}
-		globalContext.putFuncDef(node.getIdent().getText(), new FuncDef(names, (Value)getOut(node.getExpr())));
+		globalContext.putFuncDef(node.getIdent().getText(), new ProgramFuncDef(names, (Value)getOut(node.getExpr())));
 	}
 	
 	public void outAExprComp(AExprComp node) {
@@ -33,7 +44,11 @@ public class Interpreter extends DepthFirstAdapter {
 		setOut(node, new IfThenValue(cond, thenVal, elseVal));
 	}
 	
-	public void outASimpleExpr(ASimpleExpr node) {
+	public void outARelExpr(ARelExpr node) {
+		setOut(node, getOut(node.getRelexpr()));
+	}
+	
+	public void outASimpleRelexpr(ASimpleRelexpr node) {
 		setOut(node, getOut(node.getSmplexpr()));
 	}
 	
@@ -81,12 +96,12 @@ public class Interpreter extends DepthFirstAdapter {
 	}
 	
 	public void outAFactorTerm(AFactorTerm node) {
-		setOut(node, getOut(node.getFactor()));
+		setOut(node, getOut(node.getAddopfactor()));
 	}
 	
 	public void outAMulTerm(AMulTerm node) {
 		Value a = (Value)getOut(node.getTerm());
-		Value b = (Value)getOut(node.getFactor());
+		Value b = (Value)getOut(node.getAddopfactor());
 		Value v;
 		if (node.getMulop() instanceof ATimesMulop) {
 			v = new TimesOpValue(a, b);
@@ -104,6 +119,17 @@ public class Interpreter extends DepthFirstAdapter {
 		setOut(node, v);
 	}
 	
+	public void outAFactorAddopfactor(AFactorAddopfactor node) {
+		setOut(node, getOut(node.getFactor()));
+	}
+	
+	public void outAAddopAddopfactor(AAddopAddopfactor node) {
+		if (node.getAddop() instanceof AMinusAddop)
+			setOut(node, new MinusOpValue( new IntValue(0), (Value)getOut(node.getFactor())));
+		else
+			setOut(node, getOut(node.getFactor()));
+	}
+	
 	public void outAExprFactor(AExprFactor node) {
 		setOut(node, getOut(node.getExpr()));
 	}
@@ -114,6 +140,14 @@ public class Interpreter extends DepthFirstAdapter {
 	
 	public void outARealFactor(ARealFactor node) {
 		setOut(node, new DoubleValue(Double.valueOf(node.getRealdenotation().getText())));
+	}
+	
+	public void outABoolFactor(ABoolFactor node) {
+		setOut(node, new BoolValue(Boolean.valueOf(node.getBooldenotation().getText())));
+	}
+	
+	public void outACharFactor(ACharFactor node) {
+		setOut(node, new CharValue(node.getChardenotation().getText().charAt(1)));
 	}
 	
 	public void outACallFactor(ACallFactor node) {

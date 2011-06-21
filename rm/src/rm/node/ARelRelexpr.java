@@ -7,9 +7,9 @@ import rm.analysis.*;
 @SuppressWarnings("nls")
 public final class ARelRelexpr extends PRelexpr
 {
-    private PExpr _left_;
+    private PSmplexpr _left_;
     private PRelop _relop_;
-    private PExpr _right_;
+    private PSmplexpr _right_;
 
     public ARelRelexpr()
     {
@@ -17,9 +17,9 @@ public final class ARelRelexpr extends PRelexpr
     }
 
     public ARelRelexpr(
-        @SuppressWarnings("hiding") PExpr _left_,
+        @SuppressWarnings("hiding") PSmplexpr _left_,
         @SuppressWarnings("hiding") PRelop _relop_,
-        @SuppressWarnings("hiding") PExpr _right_)
+        @SuppressWarnings("hiding") PSmplexpr _right_)
     {
         // Constructor
         setLeft(_left_);
@@ -44,12 +44,12 @@ public final class ARelRelexpr extends PRelexpr
         ((Analysis) sw).caseARelRelexpr(this);
     }
 
-    public PExpr getLeft()
+    public PSmplexpr getLeft()
     {
         return this._left_;
     }
 
-    public void setLeft(PExpr node)
+    public void setLeft(PSmplexpr node)
     {
         if(this._left_ != null)
         {
@@ -94,12 +94,12 @@ public final class ARelRelexpr extends PRelexpr
         this._relop_ = node;
     }
 
-    public PExpr getRight()
+    public PSmplexpr getRight()
     {
         return this._right_;
     }
 
-    public void setRight(PExpr node)
+    public void setRight(PSmplexpr node)
     {
         if(this._right_ != null)
         {
@@ -159,7 +159,7 @@ public final class ARelRelexpr extends PRelexpr
         // Replace child
         if(this._left_ == oldChild)
         {
-            setLeft((PExpr) newChild);
+            setLeft((PSmplexpr) newChild);
             return;
         }
 
@@ -171,7 +171,7 @@ public final class ARelRelexpr extends PRelexpr
 
         if(this._right_ == oldChild)
         {
-            setRight((PExpr) newChild);
+            setRight((PSmplexpr) newChild);
             return;
         }
 

@@ -9,7 +9,7 @@ public final class AMulTerm extends PTerm
 {
     private PTerm _term_;
     private PMulop _mulop_;
-    private PFactor _factor_;
+    private PAddopfactor _addopfactor_;
 
     public AMulTerm()
     {
@@ -19,14 +19,14 @@ public final class AMulTerm extends PTerm
     public AMulTerm(
         @SuppressWarnings("hiding") PTerm _term_,
         @SuppressWarnings("hiding") PMulop _mulop_,
-        @SuppressWarnings("hiding") PFactor _factor_)
+        @SuppressWarnings("hiding") PAddopfactor _addopfactor_)
     {
         // Constructor
         setTerm(_term_);
 
         setMulop(_mulop_);
 
-        setFactor(_factor_);
+        setAddopfactor(_addopfactor_);
 
     }
 
@@ -36,7 +36,7 @@ public final class AMulTerm extends PTerm
         return new AMulTerm(
             cloneNode(this._term_),
             cloneNode(this._mulop_),
-            cloneNode(this._factor_));
+            cloneNode(this._addopfactor_));
     }
 
     public void apply(Switch sw)
@@ -94,16 +94,16 @@ public final class AMulTerm extends PTerm
         this._mulop_ = node;
     }
 
-    public PFactor getFactor()
+    public PAddopfactor getAddopfactor()
     {
-        return this._factor_;
+        return this._addopfactor_;
     }
 
-    public void setFactor(PFactor node)
+    public void setAddopfactor(PAddopfactor node)
     {
-        if(this._factor_ != null)
+        if(this._addopfactor_ != null)
         {
-            this._factor_.parent(null);
+            this._addopfactor_.parent(null);
         }
 
         if(node != null)
@@ -116,7 +116,7 @@ public final class AMulTerm extends PTerm
             node.parent(this);
         }
 
-        this._factor_ = node;
+        this._addopfactor_ = node;
     }
 
     @Override
@@ -125,7 +125,7 @@ public final class AMulTerm extends PTerm
         return ""
             + toString(this._term_)
             + toString(this._mulop_)
-            + toString(this._factor_);
+            + toString(this._addopfactor_);
     }
 
     @Override
@@ -144,9 +144,9 @@ public final class AMulTerm extends PTerm
             return;
         }
 
-        if(this._factor_ == child)
+        if(this._addopfactor_ == child)
         {
-            this._factor_ = null;
+            this._addopfactor_ = null;
             return;
         }
 
@@ -169,9 +169,9 @@ public final class AMulTerm extends PTerm
             return;
         }
 
-        if(this._factor_ == oldChild)
+        if(this._addopfactor_ == oldChild)
         {
-            setFactor((PFactor) newChild);
+            setAddopfactor((PAddopfactor) newChild);
             return;
         }
 

@@ -5,45 +5,45 @@ package rm.node;
 import rm.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFactorTerm extends PTerm
+public final class AFactorAddopfactor extends PAddopfactor
 {
-    private PAddopfactor _addopfactor_;
+    private PFactor _factor_;
 
-    public AFactorTerm()
+    public AFactorAddopfactor()
     {
         // Constructor
     }
 
-    public AFactorTerm(
-        @SuppressWarnings("hiding") PAddopfactor _addopfactor_)
+    public AFactorAddopfactor(
+        @SuppressWarnings("hiding") PFactor _factor_)
     {
         // Constructor
-        setAddopfactor(_addopfactor_);
+        setFactor(_factor_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFactorTerm(
-            cloneNode(this._addopfactor_));
+        return new AFactorAddopfactor(
+            cloneNode(this._factor_));
     }
 
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFactorTerm(this);
+        ((Analysis) sw).caseAFactorAddopfactor(this);
     }
 
-    public PAddopfactor getAddopfactor()
+    public PFactor getFactor()
     {
-        return this._addopfactor_;
+        return this._factor_;
     }
 
-    public void setAddopfactor(PAddopfactor node)
+    public void setFactor(PFactor node)
     {
-        if(this._addopfactor_ != null)
+        if(this._factor_ != null)
         {
-            this._addopfactor_.parent(null);
+            this._factor_.parent(null);
         }
 
         if(node != null)
@@ -56,23 +56,23 @@ public final class AFactorTerm extends PTerm
             node.parent(this);
         }
 
-        this._addopfactor_ = node;
+        this._factor_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._addopfactor_);
+            + toString(this._factor_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._addopfactor_ == child)
+        if(this._factor_ == child)
         {
-            this._addopfactor_ = null;
+            this._factor_ = null;
             return;
         }
 
@@ -83,9 +83,9 @@ public final class AFactorTerm extends PTerm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._addopfactor_ == oldChild)
+        if(this._factor_ == oldChild)
         {
-            setAddopfactor((PAddopfactor) newChild);
+            setFactor((PFactor) newChild);
             return;
         }
 

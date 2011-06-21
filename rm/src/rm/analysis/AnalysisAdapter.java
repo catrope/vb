@@ -119,12 +119,17 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseASimpleExpr(ASimpleExpr node)
+    public void caseARelExpr(ARelExpr node)
     {
         defaultCase(node);
     }
 
     public void caseARelRelexpr(ARelRelexpr node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseASimpleRelexpr(ASimpleRelexpr node)
     {
         defaultCase(node);
     }
@@ -149,6 +154,16 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseAAddopAddopfactor(AAddopAddopfactor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAFactorAddopfactor(AFactorAddopfactor node)
+    {
+        defaultCase(node);
+    }
+
     public void caseAExprFactor(AExprFactor node)
     {
         defaultCase(node);
@@ -160,6 +175,16 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseARealFactor(ARealFactor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseABoolFactor(ABoolFactor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseACharFactor(ACharFactor node)
     {
         defaultCase(node);
     }
@@ -369,7 +394,22 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
+    public void caseTBooldenotation(TBooldenotation node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTChardenotation(TChardenotation node)
+    {
+        defaultCase(node);
+    }
+
     public void caseTIdent(TIdent node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTComment(TComment node)
     {
         defaultCase(node);
     }

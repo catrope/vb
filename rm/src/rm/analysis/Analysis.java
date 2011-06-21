@@ -22,15 +22,20 @@ public interface Analysis extends Switch
     void caseAMultiPars(AMultiPars node);
     void caseASinglePars(ASinglePars node);
     void caseAIfthenExpr(AIfthenExpr node);
-    void caseASimpleExpr(ASimpleExpr node);
+    void caseARelExpr(ARelExpr node);
     void caseARelRelexpr(ARelRelexpr node);
+    void caseASimpleRelexpr(ASimpleRelexpr node);
     void caseATermSmplexpr(ATermSmplexpr node);
     void caseAAddSmplexpr(AAddSmplexpr node);
     void caseAFactorTerm(AFactorTerm node);
     void caseAMulTerm(AMulTerm node);
+    void caseAAddopAddopfactor(AAddopAddopfactor node);
+    void caseAFactorAddopfactor(AFactorAddopfactor node);
     void caseAExprFactor(AExprFactor node);
     void caseAIntFactor(AIntFactor node);
     void caseARealFactor(ARealFactor node);
+    void caseABoolFactor(ABoolFactor node);
+    void caseACharFactor(ACharFactor node);
     void caseACallFactor(ACallFactor node);
     void caseANonemptyArglst(ANonemptyArglst node);
     void caseAEmptyArglst(AEmptyArglst node);
@@ -73,7 +78,10 @@ public interface Analysis extends Switch
     void caseTElsesym(TElsesym node);
     void caseTIntdenotation(TIntdenotation node);
     void caseTRealdenotation(TRealdenotation node);
+    void caseTBooldenotation(TBooldenotation node);
+    void caseTChardenotation(TChardenotation node);
     void caseTIdent(TIdent node);
+    void caseTComment(TComment node);
     void caseTBlank(TBlank node);
     void caseEOF(EOF node);
 }
